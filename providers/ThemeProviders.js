@@ -1,0 +1,33 @@
+import { ThemeContext, themes } from "../context/ThemeContext"
+
+import { useState, useContext,useMemo } from "react"
+
+
+
+const ThemeProviders =({children})=>{
+    const [theme, setTheme] =useState(themes.light)
+
+    const toggleTheme=()=>{
+        setTheme(theme === themes.dark
+            ?themes.light
+            :themes.dark)
+    }
+
+    const themeApi = useMemo ( ()=>{
+      return {
+
+          theme,
+          toggleTheme
+        }  
+    }, [theme,toggleTheme])
+
+   
+    return (
+<ThemeContext.Provider value ={themeApi}>
+    {children}
+</ThemeContext.Provider>
+    )
+}
+
+export const useTheme= ()=> useContext(ThemeContext)
+export default ThemeProviders
